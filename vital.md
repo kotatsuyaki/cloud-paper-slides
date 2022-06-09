@@ -170,3 +170,94 @@
     - Have to think about clock skew within physical block
   - "Multi-die"
     - Physical block is always in a single die
+
+## Compilation Layer
+
+- Xilinx tools is reused
+
+### Compilation Steps
+
+1. Synthesis
+   - HLS => Verilog RTL => Netlist of LUTs
+2. Partition (new in ViTAL)
+   - Partition netlist into **virtual blocks**
+   - Algorithm talked in section 4
+   - Can be done in many levels:
+     - CDFGs
+     - DFGs
+     - Netlists <== used in ViTAL
+   - Why partition at netlist level?
+     1. Netlist is language-agnostic
+     2. Netlist lets you see resource usage (LUTs, BRAMs)
+3. Lat-Ins Interface Generation
+4. Local PnR
+   - Virtual block => Physical block
+   - Lat-ins interface => commu region
+   - Reuse PnR in existing tool
+5. Relocation
+6. Global PnR
+   - Reuse PnR in existing tool
+
+## System Layer
+
+- One DB for current resource usages
+- One DB for bitstreams
+- Deploys using **partial reconfiguration**
+- Tries to allocate app onto a **single FPGA**
+  - ... then try 2 FPGAs
+  - ... then try 3 FPGAs
+- (Not implemented) Share identical physical block between apps
+  - why not? because it **reduces perf** for each user
+  - why not? because in cloud the compiled apps are **encrypted**
+  - **not** sharing prevents "side-channel attack", etc.
+
+## Discussions
+
+### Back-Pressure and Deadlock
+
+- User logic is gated once the output buffer is full
+  - So back-pressure is solved
+- Some mechanisms to avoid deadlock
+  - Guarantee "at least one input buf is not empty"
+
+### System-Reserved Resource
+
+- We want the reserved regions (System & Commu) to be small
+  - System is small, no problem
+    - Can do better by using a hard IP block to do it
+  - Commu is **not** small
+    - Intra-FPGA buffers are removed to fix this
+
+## Partition Algorithm
+
+- Affects performance a lot
+- "Placement-based" partition algo
+  1. Apps are placed onto 2D space
+  2. Partition based on placement results
+- Minimize num. of inter-block conn
+- Maximize "operation frequency"
+
+### Packing
+
+- Greedily pack logic into **clusters**
+
+### Global Placement
+
+- "Quadratic placement method"
+  1. Solve linear eq.
+     - Minimize total len. of routing paths
+  2. Create legal placement (using SA)
+     - (Step 1 creates illegal solution)
+     - Eliminate over-util
+     - Minimize move dist.
+  3. Pseudo Cluster & Connections
+     - (what??)
+  4. Repeat step 2 and 3
+     - $\beta$ is slowly increased
+     - Move clusters away from over-util blocks
+
+# Evaluation
+
+- Evaluate each layer
+
+## Bench Selection
