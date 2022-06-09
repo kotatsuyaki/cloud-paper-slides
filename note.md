@@ -208,4 +208,62 @@
      - Multiple "DPR regions" configured independently
      - Reduce reconfig time using "Intermediate Fabrics" (what?)
 
+## Software
+
+### Overlay
+
+- "Intermediate fabric"
+  - Provide uniform architecture on top of real FPGA
+  - Apps are portable on this overlay arch
+  - Like JVM
+  - Reduce compile time
+  - Good portability
+  - Good dev productivity
+  - Bad utilization & performance
+- Configuration
+  1. Spacially Configured ( SC ): Functional units have fixed tasks
+  2. Time-multiplexed ( TM ): Overlay operation changes every cycle
+- Granularity
+  1. Fine-grained overlay
+     - Operate at bit-level
+  2. Coarse-grained overlay
+     - "Coarse-grained reconfigurable arrays" (CGRA)
+       - Array of PEs in 2D network
+       - or other topologies
+       - "NoC topology" communicates via routers (flexible)
+     - or just **processors**
+- Recent work: NoC-based overlay
+  - Torus network
+  - Packet communication
+  - High-level C++ library
+
+# Objectives
+
+## Abstraction
+
+- Overlay architecture
+  - Performance & utilization penalty
+  - Mitigate: Choose overlay arch from multiple of them
+  - Single abstraction across vendors
+- OS-based approache
+  - Feniks OS: Big shell for management
+  - OS4RS: "device node"
+  - RACOS: load / unload accelerators
+  - AmorphOS
+    - "Morphlets" (= vFPGA)
+    - Read / write data over transport layer
+  - Accelerator marketplace on OpenStack
+
+
+## Multi-Tenancy
+
+- Spactial or Temporal Multiplex
+  - spacial: device is partitioned
+  - temporal: reconfig time has to be fast
+
+## Resource Management
+
+- Transparent Provision & Management
+  - for balancing & fault tolerance
+- PRRs
 
