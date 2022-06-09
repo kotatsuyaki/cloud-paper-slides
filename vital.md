@@ -126,3 +126,47 @@
      3. Optimization
         - Cluster, Pack, PnR
         - Takes hours (or days), bc *millions* of primitives
+
+# The ViTAL Layers
+
+## Programming Layer
+
+- Supports C/C++/OpenCL/DSLs
+- The compiler provides interface to HLS tool
+- Parts
+  - Illusion of single, infinite FPGA
+  - Runtime resource management system for "util and concurrency"
+- The 2 parts reduce programming complexity
+
+## Architecture Layer
+
+- Sits between **physical FPGA** and **compilation layer**
+- Decouples **compilation** and **allocation**
+  - By **position-independent mapping**
+  - Tradidionally, app are deployed to fixed location
+    - Certain type of resource is only avail. at certain loc.
+- By **homogeneous abstraction** - every block has:
+  - same amount of programmable resources
+  - same interface to peripherals (DRAMs etc.)
+  - same latency-insensitive interface to other blocks
+    - "hides latency difference" (how??)
+  - Partitioning is simple
+  - Functional correctness is simple (i.e. no timing failure)
+  - User logic is gated behind "yes have data" wire
+- Virtual memory for off-chip DRAM
+  - Apps can use virt addr to access it
+  - Memory accesses are monitored for security
+- Every physical FPGA is partitioned into 3 regions
+- The **user region** contains **identical blocks**. How?
+  - FPGA has heterogeneous resources
+  - ... so it has to be carefully partitioned
+  - i.e. FPGA is column-based => Blocks is row-based
+- User logic is **offline compiled** for a **physical block** (relocatable)
+
+---
+
+- Modern FPGA is complex
+  - "Clock-regions"
+    - Have to think about clock skew within physical block
+  - "Multi-die"
+    - Physical block is always in a single die
