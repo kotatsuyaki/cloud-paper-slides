@@ -74,3 +74,31 @@
      - User Region: Several **identical** physical blocks <=> **virtual blocks**
        - 1-to-1 phys-virt block mapping
        - Relocatable at runtime
+3. "System Layer"
+   - Map app to 1 or many FPGAs
+   - Multi-FPGA may reduce throughput (bc communication)
+     - Runtime management has to be aware of communication
+     - Balance **utilization** <=> **throughput**
+
+---
+
+- Developing is hard
+- Save dev time by reuse proprietary tools from vendors
+
+### Contributions of ViTAL
+
+1. Homogeneous abstraction
+   - Decouple Compile <=> Resource Allocation
+   - Enable fine-grained FPGA sharing
+   - Reduce programming complexity
+   - Supports scaling (by infty large illusive FPGA)
+2. Demo benefit of ViTAL by experiments
+
+---
+
+- Section 2: Background
+- Section 3: Details for the **layers**
+- Section 4: Details of **tools**
+- Section 5: Evaluation
+- Section 6: Discuss related work
+- Section 7: Conclude
