@@ -82,3 +82,130 @@
 - Table 1: System archs
 - Table 2: FPGA virt techs, with objective category
 - Bonus: review isolation & security papers
+
+# Background
+
+## Virtualization
+
+- Create virtual abstraction
+  - of: computing resources
+  - to: hide hardware stuff
+- User gets illusions:
+  - Unlimited access
+  - Exclusive access
+
+### GPU Virt
+
+- gVirtuS
+  - "split driver" approach
+  - frontend component in guest
+  - backend component manages and manages requests
+- rCuda
+  - For HPC
+  - Access remotely
+  - Client stubs forward API calls
+  - Server performs GPU multiplexing
+
+## Objectives
+
+### Old Objectives are Bad
+
+- multi-tenancy
+- resource management
+- isolation
+- resilience (what?)
+- (x) scalability: **cloud in general**
+- (x) performance: ~
+- (x) security: ~
+- (x) flexibility: **objs of HLS**
+- (x) programmer's productivity: ~
+
+### New Objectives
+
+- Abstraction: Hide hardware stuff
+- Multi-tenancy: share among users and apps
+- Resource Management: Provision, balancing, fault tolerance
+- Isolation: Perf & data isolation among users and apps
+  - covers *security*
+  - covers *resilience*
+
+## FPGA Virt is Hard
+
+- FPGA is reconfigurable
+  - but virtualization is not hardware-agnostic
+- Multi-tenancy is hard
+  - since FPGA is traditionally embeded & for single app
+  - new tech: *partial reconfiguration* (PR)
+    - flows are not mature
+- Provision in cloud is hard
+  - since buildng HDL code takes long time
+- Resource Management is hard
+  - since hardware is tied to vendored design flows
+
+## Terminologies
+
+- Shell
+  - "static region" on FPGA, pre-implemented
+  - "hardware OS", "static region", "hull"
+- Role
+  - "dynamic region" on FPGA
+  - Role = PRR + ... + PRR (partially-reconfigurable region)
+  - Each PRR can be reconf. without interrupting others
+- vFPGA
+  - Virtual abstraction of the physical device
+  - 1+ PRR mapped to one vFPGA
+- Accelerator
+  - a PRR / vFPGA programmed with an app
+- Hypervisor
+  - Gives software apps abstraction of FPGA
+  - Manage vFPGA resources
+  - "OS", "Resource Management System", "VMM", "RTM", ...
+
+## Programming Models
+
+1. DSL
+   - Write in C-like language
+   - Loops are transformed as FPGA kernels (using HLS)
+2. HDL
+   - Verilog, SystemVerilog, VHDL, ...
+   - Requires effort & knowledge
+3. HLS
+   - OpenCL, Java, ...
+   - Less hardware knowledge needed
+   - Productivity goes brrr
+   - e.g. Intel FPGA SDK for OpenCL: Compiler, Emulator, Runtime
+
+# FPGA Virt System Architectures
+
+## Hardware
+
+- Host Interface
+  1. On-Chip Host Interface
+     - FPGA hardware <=> Soft / Hard CPU on chip
+     - Soft: MicroBlaze
+     - Hard: Zynq
+     - Low latency but wastes area
+  2. Local Host Interface
+     - FPGA hardware <== PCIe ==> CPU host
+  3. Remote Host Interface
+     - Connects via network
+     - Hight latency but improves scalibility
+
+- Shell
+  1. System Memory Controller
+     - Allow FPGA kernel access DDR / SDRAM
+     - = DMA controller
+  2. Host Interface Controller
+     - on-chip / local / remote (see "host interface")
+     - = PCIe module
+  3. Network Interface Controller
+     - Allow FPGA to access network **without host CPU**
+
+- Role
+  1. Flat compilation
+     - Whole role is reconf'ed for one app
+  2. Partial reconfiguration
+     - Multiple "DPR regions" configured independently
+     - Reduce reconfig time using "Intermediate Fabrics" (what?)
+
+
