@@ -102,3 +102,27 @@
 - Section 5: Evaluation
 - Section 6: Discuss related work
 - Section 7: Conclude
+
+# Background
+
+## FPGA Arch
+
+- Island-style, **heterogeneous arch**
+- 2D array of ...
+  - CLB - Logic blocks
+    - which contains many LUTs
+  - SB - Switch blocks
+  - CB - Connection blocks
+  - Hard IP blocks (BRAM, DSP, etc.)
+
+## FPGA Flow
+
+- FPGA Compilation: Data flow => Physical hardware
+- Two phases
+  1. HLS: High-level lang => RTL lang
+  2. Synth:
+     1. Parser: Verilog => IRs (CDFGs, DFGs, Netlist)
+     2. Tech mapping: Netlist => LUTs & FFs
+     3. Optimization
+        - Cluster, Pack, PnR
+        - Takes hours (or days), bc *millions* of primitives
