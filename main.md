@@ -5,7 +5,7 @@
   - [Existing Solutions](#existing-solutions)
 - Methods
   - [System Overview](#system-overview)
-  - [Programming](#programming-model), [Architecture](#architecture-layer) [Compilation](#compilation-layer), and [System Layer](#system-layer)
+  - [Architecture](#architecture-layer) [Compilation](#compilation-layer), and [System Layer](#system-layer)
 - Evaluation
 - Conclusion
 
@@ -43,21 +43,21 @@ Problems to solve: (1) Bad utilization (2) Difficult to use multi-FPGA
 
 ## Overview of ViTAL \normalsize{}(Virtulization Stack for FPGAs in the Cloud)
 
-- Carefully divide FPGA into identical physical blocks
-- Compile apps into virtual blocks
-- Map virtual blocks to physical blocks at runtime
+- Carefully divide FPGA into identical \textcolor{blue}{physical blocks}
+- Compile apps into \textcolor{red}{virtual blocks}
+- Map \textcolor{red}{virtual blocks} to \textcolor{blue}{physical blocks} at runtime (1-to-1)
 - **Runtime allocation** $\implies$ Good utilization
 - Illusion of **single, infinitely large FPGA** $\implies$ Good scale-out
 
 ![Virt-to-phys mapping](./resources/virtual-to-physical-mapping.png)
 
-## Programming Model
+<!-- ## Programming Model
 
 - **Single, infinitely large FPGA**
 - "Portable across FPGAs"
 - Reduces programming complexity
   - ViTAL takes care of partitioning & communication
-  - Supports C/C++/OpenCL/other DSLs (by using HLS)
+  - Supports C/C++/OpenCL/other DSLs (by using HLS) -->
 
 ## Architecture Layer
 
@@ -79,7 +79,7 @@ Problems to solve: (1) Bad utilization (2) Difficult to use multi-FPGA
 
 ## System Layer
 
-- Uses *partial reconfiguration* to deploy virtual blocks
+<!-- - Uses *partial reconfiguration* to deploy virtual blocks -->
 - Tries to allocate blocks from **single FPGA** for one app
   - ... then 2 FPGAs, then 3 FPGAs, ...
   - Lowers communication overhead within app
