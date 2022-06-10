@@ -8,9 +8,11 @@ author: |
   | Jing Li
   | 
   | Presenter: 黃明瀧
+date: 2020
 
 maketitle: true
 colorlinks: true
 bigimages:
   - ./resources/compilation.png
+  - ./resources/system-speed.png
 ---
