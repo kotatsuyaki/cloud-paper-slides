@@ -1,15 +1,16 @@
 ---
 # vim: set ft=markdown.pandoc colorcolumn=100:
 
-title: 'Recognition of Fanout-free Functions'
+title: 'Virtualizing FPGAs in the Cloud'
+subtitle: ASPLOS'20
 author: |
-  | Tsung-Lin Lee
-  | Chun-Yao Wang
+  | Yue Zha
+  | Jing Li
   | 
   | Presenter: 黃明瀧
 
 maketitle: true
 colorlinks: true
 bigimages:
-  - ./placeholder.png
+  - ./resources/compilation.png
 ---
